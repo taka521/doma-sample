@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>姓</th>
+            <th>名</th>
+            <th>性別</th>
+            <th>メールアドレス</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">1</td>
+            <td th:text="${user.lastName}">lastName</td>
+            <td th:text="${user.firstName}">firstName</td>
+            <td th:text="${user.sex == '0'}? '男性' : '女性'">men</td>
+            <td th:text="${user.mailAddress}">test@mail.com</td>
+            <td>
+                <form th:action="@{/user/edit}" method="post">
+                    <input type="submit" value="編集" />
+                    <input type="hidden" name="id" th:value="${user.id}" />
+                </form>
+            </td>
+            <td>
+                <form th:action="@{/user/delete}" method="post">
+                    <input type="submit" value="削除" />
+                    <input type="hidden" name="id" th:value="${user.id}" />
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
