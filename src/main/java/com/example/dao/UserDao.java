@@ -24,7 +24,7 @@ public interface UserDao {
     @Select
     Optional<User> findById(final ID<User> id);
 
-    @Update(exclude = "password")
+    @Update(sqlFile = true)
     Result<User> update(final User user);
 
     @Insert
