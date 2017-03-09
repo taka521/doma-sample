@@ -39,9 +39,10 @@ public class UserController {
     }
 
     /**
+     * ユーザ一覧取得リクエスト
      *
-     * @param model
-     * @return
+     * @param model モデル
+     * @return 一覧画面用のビュー名。
      */
     @GetMapping(path = "/list")
     String getList(Model model){
@@ -56,10 +57,10 @@ public class UserController {
     /**
      * ユーザ登録画面呼び出しメソッド
      *
-     * @return ユーザ登録用のView名
+     * @return ユーザ登録用のビュー名
      */
     @GetMapping(path = "/create")
-    String create(Model model){
+    String create(){
         return "user/create";
     }
 
@@ -77,7 +78,7 @@ public class UserController {
             .map( m -> "user/edit")
             .orElseGet( () -> {
                 model.addAttribute("errorMsg", "ユーザの取得に失敗しました。");
-                return "redirect:user/list";
+                return "redirect:/list";
             });
     }
 
@@ -89,17 +90,24 @@ public class UserController {
      * @return リダイレクト先
      */
     @PostMapping(path = "/add")
-    String insert(@Validated final UserForm userForm, final BindingResult result){
+    String insert(@Validated final UserForm userForm, final BindingResult result, final Model model){
+
+        if(result.hasErrors()){
+            model.addAttribute("errors", result.getAllErrors());
+            return create();
+        }
+
         userService.insert(formToEntity(userForm));
-        return "redirect:user/list";
+        return "redirect:/user/list";
     }
 
     /**
+     * ユーザ更新リクエスト
      *
-     * @param userForm
-     * @param result
-     * @param model
-     * @return
+     * @param userForm ユーザフォーム
+     * @param result 入力チェック結果
+     * @param model モデル
+     * @return ビュー名。
      */
     @PostMapping(path = "/update")
     String update(@Validated final UserForm userForm, final BindingResult result, final Model model){
@@ -120,22 +128,25 @@ public class UserController {
     }
 
     /**
+     * ユーザ削除リクエスト
      *
-     * @param userForm
-     * @param model
-     * @return
+     * @param userForm ユーザフォーム
+     * @param model モデル
+     * @return ビュー名。
      */
     @PostMapping(path = "/delete")
     String delete(final UserForm userForm, final Model model){
 
         try {
-            userService.delete(this.formToEntity(userForm));
+            userService.delete(
+                new User(ID.of(userForm.getId()), null, null, null, null, null, null)
+            );
         }catch (SqlExecutionException e){
             model.addAttribute("errorMsg", "削除に失敗しました");
             return getUser(userForm, model);
         }
 
-        return "redirect:user/list";
+        return "redirect:/user/list";
     }
 
     /**

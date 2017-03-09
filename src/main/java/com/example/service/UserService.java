@@ -27,7 +27,16 @@ public class UserService {
 
     @Transactional
     public User insert(final User user){
-        return userDao.insert(user).getEntity();
+        User pwdHashedUser = new User(
+            user.id,
+            user.password.toHash(),
+            user.fullName,
+            user.sex,
+            user.mailAddress,
+            user.createdAt,
+            user.updatedAt
+        );
+        return userDao.insert(pwdHashedUser).getEntity();
     }
 
     @Transactional

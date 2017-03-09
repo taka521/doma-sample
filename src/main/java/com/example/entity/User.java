@@ -27,10 +27,8 @@ public class User implements Serializable {
     public final Sex sex;
     public final Optional<MailAddress> mailAddress;
 
-    @Column(insertable = false, updatable = false)
+    @Column(updatable = false)
     public final CreatedAt createdAt;
-
-    @Column(insertable = false, updatable = false)
     public final UpdatedAt updatedAt;
 
     public User(ID<User> id, Password password, FullName fullName, Sex sex, Optional<MailAddress> mailAddress, CreatedAt createdAt, UpdatedAt updatedAt) {
@@ -42,4 +40,5 @@ public class User implements Serializable {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>新規登録画面</title>
+</head>
+<body>
+    <form th:action="@{/user/add}" method="post" >
+        <table>
+            <tr>
+                <th>姓</th>
+                <td><input type="text" name="lastName" /></td>
+            </tr>
+            <tr>
+                <th>名</th>
+                <td><input type="text" name="firstName" /></td>
+            </tr>
+            <tr>
+                <th>性別</th>
+                <td>
+                    <select name="sex" >
+                        <option value="0" >男性</option>
+                        <option value="1" >女性</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>メールアドレス</th>
+                <td><input type="email" name="mailAddress" /></td>
+            </tr>
+            <tr>
+                <th>パスワード</th>
+                <th><input type="password" name="password" /></th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="登録" />
+                    <input type="reset" value="リセット" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
