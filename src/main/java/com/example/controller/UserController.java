@@ -1,14 +1,5 @@
 package com.example.controller;
 
-import com.example.domain.CreatedAt;
-import com.example.domain.FirstName;
-import com.example.domain.ID;
-import com.example.domain.LastName;
-import com.example.domain.MailAddress;
-import com.example.domain.Password;
-import com.example.domain.Sex;
-import com.example.domain.UpdatedAt;
-import com.example.embeddable.FullName;
 import com.example.entity.User;
 import com.example.form.UserForm;
 import com.example.service.UserService;
@@ -29,6 +20,9 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("user")
 public class UserController {
+
+    /** ユーザ一覧画面へのリダイレクト指定 */
+    private static final String REDIRECT_USR_LIST = "redirect:/user/list";
 
     @Autowired
     private UserService userService;
@@ -78,7 +72,7 @@ public class UserController {
             .map( m -> "user/edit")
             .orElseGet( () -> {
                 model.addAttribute("errorMsg", "ユーザの取得に失敗しました。");
-                return "redirect:/list";
+                return REDIRECT_USR_LIST;
             });
     }
 
@@ -97,8 +91,8 @@ public class UserController {
             return create();
         }
 
-        userService.insert(formToEntity(userForm));
-        return "redirect:/user/list";
+        userService.insert(userForm);
+        return REDIRECT_USR_LIST;
     }
 
     /**
@@ -118,13 +112,13 @@ public class UserController {
         }
 
         try {
-            userService.update(formToEntity(userForm));
+            userService.update(userForm);
         }catch (SqlExecutionException e){
             model.addAttribute("errorMsg", "更新に失敗しました。");
             return getUser(userForm, model);
         }
 
-        return "redirect:/user/list";
+        return REDIRECT_USR_LIST;
     }
 
     /**
@@ -138,40 +132,13 @@ public class UserController {
     String delete(final UserForm userForm, final Model model){
 
         try {
-            userService.delete(
-                new User(ID.of(userForm.getId()), null, null, null, null, null, null)
-            );
+            userService.delete(userForm.getId());
         }catch (SqlExecutionException e){
             model.addAttribute("errorMsg", "削除に失敗しました");
             return getUser(userForm, model);
         }
 
-        return "redirect:/user/list";
-    }
-
-    /**
-     * Formオブジェクトから、エンティティオブジェクトへ変換を行います。
-     *
-     * @param userForm ユーザフォーム
-     * @return ユーザエンティティ
-     */
-    private User formToEntity(final UserForm userForm){
-        ID<User> id = userForm.getId() != 0L  ? ID.of(userForm.getId()) : ID.notAssigned();
-
-        User user = new User(
-                id,
-                Password.of(userForm.getPassword()),
-                new FullName(
-                    FirstName.of(userForm.getFirstName()),
-                    LastName.of(userForm.getLastName())
-                ),
-                Sex.of(userForm.getSex()),
-                MailAddress.of(userForm.getMailAddress()).toOptional(),
-                CreatedAt.getCurrent(),
-                UpdatedAt.getCurrent()
-        );
-
-        return user;
+        return REDIRECT_USR_LIST;
     }
 
     /**

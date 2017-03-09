@@ -5,28 +5,28 @@
     <title>新規登録画面</title>
 </head>
 <body>
-    <form th:action="@{/user/add}" method="post" >
+    <form th:action="@{/user/add}" method="post" th:object="${userForm}">
         <table>
             <tr>
                 <th>姓</th>
-                <td><input type="text" name="lastName" /></td>
+                <td><input type="text" name="lastName" th:value="*{lastName}"/></td>
             </tr>
             <tr>
                 <th>名</th>
-                <td><input type="text" name="firstName" /></td>
+                <td><input type="text" name="firstName" th:value="*{firstName}"/></td>
             </tr>
             <tr>
                 <th>性別</th>
                 <td>
                     <select name="sex" >
-                        <option value="0" >男性</option>
-                        <option value="1" >女性</option>
+                        <option value="0" th:selected="*{sex == '0'}">男性</option>
+                        <option value="1" th:selected="*{sex == '1'}">女性</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <th>メールアドレス</th>
-                <td><input type="email" name="mailAddress" /></td>
+                <td><input type="email" name="mailAddress" th:value="*{mailAddress}"/></td>
             </tr>
             <tr>
                 <th>パスワード</th>
@@ -39,6 +39,9 @@
                 </td>
             </tr>
         </table>
+    </form>
+    <form th:action="@{/user/list}" method="get">
+        <input type="submit" value="戻る" />
     </form>
 </body>
 </html>

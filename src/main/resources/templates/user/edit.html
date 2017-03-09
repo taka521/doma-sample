@@ -37,5 +37,8 @@
             <input type="hidden" name="id" th:field="*{id}" />
         </table>
     </form>
+    <form th:action="@{/user/list}" method="get">
+        <input type="submit" value="戻る" />
+    </form>
 </body>
 </html>
