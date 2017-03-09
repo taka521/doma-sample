@@ -27,7 +27,7 @@ public interface UserDao {
     @Update(sqlFile = true)
     Result<User> update(final User user);
 
-    @Insert
+    @Insert(sqlFile = true)
     Result<User> insert(final User user);
 
     @Delete

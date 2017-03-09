@@ -2,23 +2,23 @@
 <html lang="ja" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>編集画面</title>
+    <title>新規登録画面</title>
 </head>
 <body>
-    <form th:action="@{/user/update}" method="post" th:object="${user}">
+    <form th:action="@{/user/add}" method="post" th:object="${userForm}">
         <table>
             <tr>
                 <th>姓</th>
-                <td><input type="text" name="lastName" th:field="*{lastName}" value="田中"/></td>
+                <td><input type="text" name="lastName" th:value="*{lastName}"/></td>
             </tr>
             <tr>
                 <th>名</th>
-                <td><input type="text" name="firstName" th:field="*{firstName}" value="太郎"/></td>
+                <td><input type="text" name="firstName" th:value="*{firstName}"/></td>
             </tr>
             <tr>
                 <th>性別</th>
                 <td>
-                    <select name="sex" id="sex">
+                    <select name="sex" >
                         <option value="0" th:selected="*{sex == '0'}">男性</option>
                         <option value="1" th:selected="*{sex == '1'}">女性</option>
                     </select>
@@ -26,15 +26,18 @@
             </tr>
             <tr>
                 <th>メールアドレス</th>
-                <td><input type="email" name="mailAddress" th:field="*{mailAddress}" value="test@mail.com"/></td>
+                <td><input type="email" name="mailAddress" th:value="*{mailAddress}"/></td>
+            </tr>
+            <tr>
+                <th>パスワード</th>
+                <th><input type="password" name="password" /></th>
             </tr>
             <tr>
                 <td>
-                    <input type="submit" value="更新" />
+                    <input type="submit" value="登録" />
                     <input type="reset" value="リセット" />
                 </td>
             </tr>
-            <input type="hidden" name="id" th:field="*{id}" />
         </table>
     </form>
     <form th:action="@{/user/list}" method="get">

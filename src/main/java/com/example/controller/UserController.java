@@ -1,14 +1,5 @@
 package com.example.controller;
 
-import com.example.domain.CreatedAt;
-import com.example.domain.FirstName;
-import com.example.domain.ID;
-import com.example.domain.LastName;
-import com.example.domain.MailAddress;
-import com.example.domain.Password;
-import com.example.domain.Sex;
-import com.example.domain.UpdatedAt;
-import com.example.embeddable.FullName;
 import com.example.entity.User;
 import com.example.form.UserForm;
 import com.example.service.UserService;
@@ -30,6 +21,9 @@ import java.util.stream.Collectors;
 @RequestMapping("user")
 public class UserController {
 
+    /** ユーザ一覧画面へのリダイレクト指定 */
+    private static final String REDIRECT_USR_LIST = "redirect:/user/list";
+
     @Autowired
     private UserService userService;
 
@@ -39,9 +33,10 @@ public class UserController {
     }
 
     /**
+     * ユーザ一覧取得リクエスト
      *
-     * @param model
-     * @return
+     * @param model モデル
+     * @return 一覧画面用のビュー名。
      */
     @GetMapping(path = "/list")
     String getList(Model model){
@@ -56,10 +51,10 @@ public class UserController {
     /**
      * ユーザ登録画面呼び出しメソッド
      *
-     * @return ユーザ登録用のView名
+     * @return ユーザ登録用のビュー名
      */
     @GetMapping(path = "/create")
-    String create(Model model){
+    String create(){
         return "user/create";
     }
 
@@ -77,7 +72,7 @@ public class UserController {
             .map( m -> "user/edit")
             .orElseGet( () -> {
                 model.addAttribute("errorMsg", "ユーザの取得に失敗しました。");
-                return "redirect:user/list";
+                return REDIRECT_USR_LIST;
             });
     }
 
@@ -89,17 +84,24 @@ public class UserController {
      * @return リダイレクト先
      */
     @PostMapping(path = "/add")
-    String insert(@Validated final UserForm userForm, final BindingResult result){
-        userService.insert(formToEntity(userForm));
-        return "redirect:user/list";
+    String insert(@Validated final UserForm userForm, final BindingResult result, final Model model){
+
+        if(result.hasErrors()){
+            model.addAttribute("errors", result.getAllErrors());
+            return create();
+        }
+
+        userService.insert(userForm);
+        return REDIRECT_USR_LIST;
     }
 
     /**
+     * ユーザ更新リクエスト
      *
-     * @param userForm
-     * @param result
-     * @param model
-     * @return
+     * @param userForm ユーザフォーム
+     * @param result 入力チェック結果
+     * @param model モデル
+     * @return ビュー名。
      */
     @PostMapping(path = "/update")
     String update(@Validated final UserForm userForm, final BindingResult result, final Model model){
@@ -110,57 +112,33 @@ public class UserController {
         }
 
         try {
-            userService.update(formToEntity(userForm));
+            userService.update(userForm);
         }catch (SqlExecutionException e){
             model.addAttribute("errorMsg", "更新に失敗しました。");
             return getUser(userForm, model);
         }
 
-        return "redirect:/user/list";
+        return REDIRECT_USR_LIST;
     }
 
     /**
+     * ユーザ削除リクエスト
      *
-     * @param userForm
-     * @param model
-     * @return
+     * @param userForm ユーザフォーム
+     * @param model モデル
+     * @return ビュー名。
      */
     @PostMapping(path = "/delete")
     String delete(final UserForm userForm, final Model model){
 
         try {
-            userService.delete(this.formToEntity(userForm));
+            userService.delete(userForm.getId());
         }catch (SqlExecutionException e){
             model.addAttribute("errorMsg", "削除に失敗しました");
             return getUser(userForm, model);
         }
 
-        return "redirect:user/list";
-    }
-
-    /**
-     * Formオブジェクトから、エンティティオブジェクトへ変換を行います。
-     *
-     * @param userForm ユーザフォーム
-     * @return ユーザエンティティ
-     */
-    private User formToEntity(final UserForm userForm){
-        ID<User> id = userForm.getId() != 0L  ? ID.of(userForm.getId()) : ID.notAssigned();
-
-        User user = new User(
-                id,
-                Password.of(userForm.getPassword()),
-                new FullName(
-                    FirstName.of(userForm.getFirstName()),
-                    LastName.of(userForm.getLastName())
-                ),
-                Sex.of(userForm.getSex()),
-                MailAddress.of(userForm.getMailAddress()).toOptional(),
-                CreatedAt.getCurrent(),
-                UpdatedAt.getCurrent()
-        );
-
-        return user;
+        return REDIRECT_USR_LIST;
     }
 
     /**
