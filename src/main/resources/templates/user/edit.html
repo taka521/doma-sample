@@ -2,43 +2,55 @@
 <html lang="ja" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css}" />
     <title>編集画面</title>
 </head>
 <body>
-    <form th:action="@{/user/update}" method="post" th:object="${user}">
-        <table>
-            <tr>
-                <th>姓</th>
-                <td><input type="text" name="lastName" th:field="*{lastName}" value="田中"/></td>
-            </tr>
-            <tr>
-                <th>名</th>
-                <td><input type="text" name="firstName" th:field="*{firstName}" value="太郎"/></td>
-            </tr>
-            <tr>
-                <th>性別</th>
-                <td>
+    <header>
+        <h1>編集</h1>
+    </header>
+    <section class="col-sm-8">
+        <form th:action="@{/user/update}" method="post" th:object="${user}" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="lastName">姓</label>
+                <div class="col-sm-10">
+                    <input type="text" name="lastName" id="lastName" class="form-control" th:value="*{lastName}" value="田中"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="firstName">名</label>
+                <div class="col-sm-10">
+                    <input type="text" name="firstName" id="firstName" class="form-control" th:value="*{firstName}" value="太郎"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="sex">性別</label>
+                <div class="col-sm-10">
                     <select name="sex" id="sex">
                         <option value="0" th:selected="*{sex == '0'}">男性</option>
                         <option value="1" th:selected="*{sex == '1'}">女性</option>
                     </select>
-                </td>
-            </tr>
-            <tr>
-                <th>メールアドレス</th>
-                <td><input type="email" name="mailAddress" th:field="*{mailAddress}" value="test@mail.com"/></td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="submit" value="更新" />
-                    <input type="reset" value="リセット" />
-                </td>
-            </tr>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="mailAddress">メールアドレス</label>
+                <div class="col-sm-10">
+                    <input type="email" name="mailAddress" id="mailAddress" class="form-control" th:value="*{mailAddress}" value="test@mail.com"/>
+                </div>
+            </div>
             <input type="hidden" name="id" th:field="*{id}" />
-        </table>
-    </form>
-    <form th:action="@{/user/list}" method="get">
-        <input type="submit" value="戻る" />
-    </form>
+            <input type="submit" class="btn btn-success" value="更新" />
+            <input type="reset" class="btn btn-info" value="リセット" />
+        </form>
+        <br/>
+        <form th:action="@{/user/list}" method="get">
+            <input type="submit" class="btn btn-default" value="戻る" />
+        </form>
+    </section>
 </body>
 </html>
