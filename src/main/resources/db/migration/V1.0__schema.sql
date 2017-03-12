@@ -13,7 +13,7 @@ CREATE TABLE user (
 /* foodテーブル */
 CREATE TABLE food (
       id            BIGINT          PRIMARY KEY AUTO_INCREMENT
-    , name          VARCHAR(255)    NOT NULL
+    , item_name     VARCHAR(255)    NOT NULL
     , price         INT             NOT NULL
     , created_at    TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP
     , updated_at    TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP

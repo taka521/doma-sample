@@ -15,4 +15,4 @@ INSERT INTO user (first_name, last_name, sex, mail_address, password) VALUES
 ;
 
 /* foodテーブルへのInsert情報 */
-INSERT INTO food (name, price) VALUES ('apple', 100), ('meat', 150), ('egg', 198);
+INSERT INTO food (item_name, price) VALUES ('apple', 100), ('meat', 150), ('egg', 198);
