@@ -152,7 +152,7 @@ public class UserController {
         userForm.setId(user.id.getValue());
         userForm.setFirstName(user.fullName.getFirstName().getValue());
         userForm.setLastName(user.fullName.getLastName().getValue());
-        userForm.setMailAddress(user.mailAddress.map(m -> m.getValue()).orElse(""));
+        userForm.setMailAddress(user.mailAddress.map(m -> m.getValue()).orElse(null));
         userForm.setSex(user.sex.getValue());
         userForm.setPassword(user.password.getValue());
         return userForm;

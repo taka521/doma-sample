@@ -10,19 +10,37 @@ import java.io.Serializable;
  * パスワードクラス
  */
 @Domain(valueType = String.class, factoryMethod = "of")
-public class Password implements Serializable{
+public final class Password implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /** パスワード */
     private final String value;
 
+    /**
+     * コンストラクタ
+     *
+     * @param value パスワード
+     */
     private Password(final String value){
         this.value = value;
     }
 
+    /**
+     * パスワードを取得します。
+     *
+     * @return パスワード
+     */
     public String getValue(){
         return this.value;
     }
 
+    /**
+     * Passwordのファクトリメソッドです。
+     *
+     * @param value パスワード
+     * @return 引数の値をラップした、Passwordインスタンス
+     */
     public static Password of(final String value){
         return new Password(value);
     }

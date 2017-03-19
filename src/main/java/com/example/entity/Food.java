@@ -28,14 +28,24 @@ public class Food implements Serializable {
     public final int price;
 
     /** 作成日時 */
-    @Column(insertable = false, updatable = false)
+    @Column(updatable = false)
     public final LocalDateTime createdAt;
 
     /** 更新日時 */
     @Column(insertable = false, updatable = false)
     public final LocalDateTime updatedAt;
 
-    public Food(long id, String itemName, int price, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    /**
+     * Foodエンティティのコンストラクタ
+     *
+     * @param id ID
+     * @param itemName 品目名
+     * @param price 価格
+     * @param createdAt 作成日時
+     * @param updatedAt 更新日時
+     */
+    public Food(final long id, final String itemName, final int price,
+                final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.itemName = itemName;
         this.price = price;
