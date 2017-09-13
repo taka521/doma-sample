@@ -14,5 +14,7 @@ INSERT INTO user (first_name, last_name, sex, mail_address, password) VALUES
 ,('Takuya'    , 'Oda'       , '0', null                            , 'b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86')
 ;
 
+INSERT INTO food_category (category_id, category_name) VALUES (1, 'fruit'), (2, 'vegetable'), (3, 'meat');
+
 /* foodテーブルへのInsert情報 */
-INSERT INTO food (item_name, price) VALUES ('apple', 100), ('meat', 150), ('egg', 198);
+INSERT INTO food (item_name, price, category_id) VALUES ('apple', 100, 1), ('grape', 200, 1), ('chicken', 150, 3), ('egg', 198, 3), ('carrot', 98, 2);

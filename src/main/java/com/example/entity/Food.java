@@ -27,6 +27,9 @@ public class Food implements Serializable {
     /** 価格 */
     public final int price;
 
+    /** カテゴリID */
+    public final int categoryId;
+
     /** 作成日時 */
     @Column(updatable = false)
     public final LocalDateTime createdAt;
@@ -44,11 +47,12 @@ public class Food implements Serializable {
      * @param createdAt 作成日時
      * @param updatedAt 更新日時
      */
-    public Food(final long id, final String itemName, final int price,
+    public Food(final long id, final String itemName, final int price, final int categoryId,
                 final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.itemName = itemName;
         this.price = price;
+        this.categoryId = categoryId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

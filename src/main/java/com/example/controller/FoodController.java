@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.controller.result.FoodResult;
 import com.example.entity.Food;
 import com.example.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class FoodController {
     private FoodService foodService;
 
     @GetMapping(path = "/list")
-    List<Food> findAll(){
-        return foodService.findAll();
+    List<FoodResult> findAll(){
+        return foodService.getFoodResultList();
     }
 
 }
